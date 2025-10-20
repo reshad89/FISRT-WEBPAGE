@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rahanul Islam | Interactive Biography</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #5b8fb9;
+            --primary-light: #7da7d9;
+            --primary-dark: #3a5a78;
+            --secondary: #b6e2d3;
+            --accent: #ffb6b9;
+            --text: #333;
+            --text-light: #666;
+            --background: #f8f9fa;
+            --white: #ffffff;
+            --shadow: rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+      
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            text-align: center;
+            padding: 60px 20px;
+            box-shadow: 0 4px 12px var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.8em;
+            font-weight: 700;
+            letter-spacing: 1px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        header p {
+            font-size: 1.2em;
+            margin-top: 10px;
+            opacity: 0.9;
+            font-weight: 300;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease 0.2s forwards;
+        }
+
+        nav {
+            background: var(--white);
+            box-shadow: 0 2px 10px var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            width: 85%;
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        .nav-link {
+            padding: 15px 20px;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            cursor: pointer;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary);
+        }
+
+        /* Main Content Container */
+        .container {
+            width: 85%;
+            max-width: 1000px;
+            margin: 30px auto;
+            background: var(--white);
+            padding: 35px 40px;
+            box-shadow: 0 6px 15px var(--shadow);
+            border-radius: 12px;
+            flex-grow: 1;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease 0.4s forwards;
+        }
+
+        /* Profile Image */
+        .profile-img-container {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .profile-img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--primary);
+            box-shadow: 0 6px 12px var(--shadow);
+            transition: var(--transition);
+        }
+
+        .profile-img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px var(--shadow);
+        }
+
+        /* Section Styling */
+        section {
+            margin-bottom: 35px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #e0e0e0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        section:last-of-type {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        h2 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            display: inline-block;
+        }
+
+        /* Content Styling */
+        p {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            text-align: justify;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            margin-bottom: 12px;
+            padding-left: 25px;
+            position: relative;
+            font-size: 1.1em;
+        }
+
+        li:before {
+            content: "▸";
+            color: var(--primary);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        strong {
+            color: var(--primary-dark);
+        }
+
+        /* Skills Section */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .skill {
+            background: var(--secondary);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .skill:hover {
+            background: var(--primary-light);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* Interactive Elements */
+        .interactive-card {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 8px var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+            border-left: 4px solid var(--primary);
+        }
+
+        .interactive-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px var(--shadow);
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .card-title i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 30px 20px;
+            margin-top: 30px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .social-link {
+            color: white;
+            font-size: 1.5em;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            color: var(--secondary);
+            transform: translateY(-3px);
+        }
+
+        footer p {
+            margin: 5px;
+            text-align: center;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 8px var(--shadow);
+            transition: var(--transition);
+            z-index: 100;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        /* Dark Theme */
+        body.dark-theme {
+            --primary: #7da7d9;
+            --primary-light: #9bc1ee;
+            --primary-dark: #5b8fb9;
+            --secondary: #4a7b5f;
+            --accent: #ff9aa2;
+            --text: #e0e0e0;
+            --text-light: #b0b0b0;
+            --background: #1a1a2e;
+            --white: #16213e;
+            --shadow: rgba(0, 0, 0, 0.2);
+        }
+
+      
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 25px 20px;
+            }
+            
+            header h1 {
+                font-size: 2.2em;
+            }
+            
+            .profile-img {
+                width: 150px;
+                height: 150px;
+            }
+            
+            h2 {
+                font-size: 1.6em;
+            }
+            
+            .nav-container {
+                flex-wrap: wrap;
+            }
+            
+            .nav-link {
+                padding: 10px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Rahanul Islam Hawlader</h1>
+        <p>Computer Science & Engineering Student | Green University of Bangladesh</p>
+    </header>
+
+    <nav>
+        <div class="nav-container">
+            <a class="nav-link active" data-target="about">About</a>
+            <a class="nav-link" data-target="education">Education</a>
+            <a class="nav-link" data-target="skills">Skills</a>
+            <a class="nav-link" data-target="hobbies">Hobbies</a>
+            <a class="nav-link" data-target="biography">Biography</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="profile-img-container">
+            <img src="ppc.jpg" alt="Profile Photo" class="profile-img">
+        </div>
+
+        <section id="about" class="visible">
+            <h2>About Me</h2>
+            <p>Hello! My name is <strong>Rahanul Islam Hawlader</strong>. I am currently pursuing my 
+            <em>B.Sc. in Computer Science and Engineering</em> at Green University of Bangladesh. 
+            I'm passionate about learning new technologies, programming, and creating meaningful digital solutions.</p>
+            
+            <div class="interactive-card">
+                <div class="card-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <h3>My Passion</h3>
+                </div>
+                <p>I believe in the power of technology to transform lives and solve complex problems. My goal is to become a skilled software developer who creates solutions that make a positive impact.</p>
+            </div>
+        </section>
+
+        <section id="education">
+            <h2>Educational Background</h2>
+            <ul>
+                <li><strong>Green University of Bangladesh:</strong> B.Sc. in CSE (Running)</li>
+                <li><strong>Amrita Lal Dey College:</strong> HSC, GPA 4.50 (2022)</li>
+                <li><strong>Bogura Cantonment Public School and College:</strong> SSC, GPA 5.00 (2020)</li>
+            </ul>
+        </section>
+
+        <section id="skills">
+            <h2>Skills & Expertise</h2>
+            <p>Throughout my academic journey, I've developed various technical and soft skills:</p>
+            
+            <div class="skills-container">
+                <div class="skill">HTML/CSS</div>
+                <div class="skill">JavaScript</div>
+                <div class="skill">java</div>
+                <div class="skill">Mysql/database</div>
+                <div class="skill">C</div>
+                <div class="skill">Problem Solving</div>
+                <div class="skill">Team Collaboration</div>
+                <div class="skill">Video Editing</div>
+                <div class="skill">Content Creation</div>
+            </div>
+        </section>
+
+        <section id="hobbies">
+            <h2>Hobbies & Interests</h2>
+            <ul>
+                <li>Learning programming and new technologies</li>
+                <li>Playing and watching football</li>
+                <li>Video editing and YouTube content creation</li>
+                <li>Listening to music and gaming</li>
+            </ul>
+            
+            <div class="interactive-card">
+                <div class="card-title">
+                    <i class="fas fa-futbol"></i>
+                    <h3>Football Enthusiast</h3>
+                </div>
+                <p>Football is more than just a game to me - it's a passion that teaches teamwork, strategy, and perseverance. I enjoy both playing and analyzing professional matches.</p>
+            </div>
+        </section>
+
+        <section id="biography">
+            <h2>Brief Biography</h2>
+            <p>I was born and raised in Bogura, Bangladesh. From an early age, I developed a curiosity 
+            for computers and technology. This passion led me to study Computer Science and Engineering. 
+            My goal is to become a skilled software developer and contribute to innovative projects 
+            that improve everyday life. I enjoy tutoring and helping others understand complex concepts 
+            in an easy way, which has helped me grow both personally and academically.</p>
+            
+            <div class="interactive-card">
+                <div class="card-title">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h3>Future Goals</h3>
+                </div>
+                <p>After completing my degree, I plan to pursue a career in software development, focusing on creating applications that solve real-world problems. I'm particularly interested in web technologies and AI.</p>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="social-links">
+            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+            <a href="#" class="https://www.facebook.com/rahanreshad"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+        </div>
+        <p>Created by Rahanul Islam | Web Development Report</p>
+        <p>Green University of Bangladesh</p>
+    </footer>
+
+    <div class="theme-toggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <script>
+        // Navigation functionality
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function() {
+                // Update active nav link
+                document.querySelectorAll('.nav-link').forEach(item => {
+                    item.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // Show the corresponding section
+                const targetId = this.getAttribute('data-target');
+                document.querySelectorAll('section').forEach(section => {
+                    section.classList.remove('visible');
+                });
+                document.getElementById(targetId).classList.add('visible');
+            });
+        });
+
+        // Scroll animation for sections
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Theme toggle functionality
+        const themeToggle = document.querySelector('.theme-toggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+            const icon = themeToggle.querySelector('i');
+            if (document.body.classList.contains('dark-theme')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        });
+
+        // Add some interactive elements
+        document.querySelectorAll('.skill').forEach(skill => {
+            skill.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 200);
+            });
+        });
+    </script>
+</body>
+</html>
